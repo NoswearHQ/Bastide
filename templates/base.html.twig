@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Site{% endblock %}</title>
+
+  {# PROD (plus tard) : CSS via manifest #}
+  {% if not app.debug %}
+    {% for href in vite_css('assets/react/main.tsx') %}
+      <link rel="stylesheet" href="{{ href }}">
+    {% endfor %}
+  {% endif %}
+</head>
+<body>
+  {% block body %}{% endblock %}
+
+  {# DEV : charge UNIQUEMENT l'entrée #}
+  <script type="module" src="http://127.0.0.1:5173/assets/react/main.tsx"></script>
+
+  {# PROD (plus tard) : JS via manifest #}
+  {% if not app.debug %}
+    <script type="module" src="{{ vite_asset('assets/react/main.tsx') }}"></script>
+  {% endif %}
+</body>
+</html>
