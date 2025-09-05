@@ -13,14 +13,12 @@ export default defineConfig({
     sourcemap: true,
     manifest: true,
     rollupOptions: {
-      // <<< DIT A VITE QUE L’ENTRÉE EST main.tsx (pas index.html)
+      // <<< IMPORTANT : entrée sans index.html
       input: fileURLToPath(new URL('./assets/react/main.tsx', import.meta.url)),
     },
   },
   resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./assets/react', import.meta.url)),
-    },
+    alias: { '@': fileURLToPath(new URL('./assets/react', import.meta.url)) },
   },
   server: {
     host: '127.0.0.1',

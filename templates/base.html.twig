@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>{% block title %}Site{% endblock %}</title>
 
-  {# CSS généré par Vite en build #}
+  {# CSS du build (peut être vide si tu n’as pas d’index.css) #}
   {% for href in vite_css('assets/react/main.tsx') %}
     <link rel="stylesheet" href="{{ href }}">
   {% endfor %}
@@ -12,7 +12,22 @@
 <body>
   {% block body %}{% endblock %}
 
-  {# JS principal du build #}
+  {# JS du build #}
+  {# DEV: client Vite + preamble React Refresh #}
+{% if app.debug %}
+  <script type="module" src="http://127.0.0.1:5173/@vite/client"></script>
+  <script type="module">
+    import RefreshRuntime from 'http://127.0.0.1:5173/@react-refresh'
+    RefreshRuntime.injectIntoGlobalHook(window)
+    window.$RefreshReg$ = () => {}
+    window.$RefreshSig$ = () => (type) => type
+    window.__vite_plugin_react_preamble_installed__ = true
+  </script>
+{% endif %}
+
+{# Puis ton entrée #}
+<script type="module" src="http://127.0.0.1:5173/assets/react/main.tsx"></script>
+
   <script type="module" src="{{ vite_asset('assets/react/main.tsx') }}"></script>
 </body>
 </html>
